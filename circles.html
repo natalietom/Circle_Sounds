@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Circles</title>
+	<script type="text/javascript" src="paper-full.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
+	<link rel="stylesheet" type="text/css" href="circles.css">
+
+	<script type="text/paperscript" canvas="myCanvas">
+
+	var keyData = {
+		q: {
+			sound: new Howl({
+	  			src: ['sounds/bubbles.mp3']
+			}),
+			color: '#2bb29e'
+		},
+		w: {
+			sound: new Howl({
+	  			src: ['sounds/clay.mp3']
+			}),
+			color: '#5cb85c'
+		},
+		e: {
+			sound: new Howl({
+	  			src: ['sounds/confetti.mp3']
+			}),
+			color: '#ffcbcb'
+		},
+		r: {
+			sound: new Howl({
+	  			src: ['sounds/corona.mp3']
+			}),
+			color: '#ffdb1a'
+		},
+			t: {
+			sound: new Howl({
+	  			src: ['sounds/dotted-spiral.mp3']
+			}),
+			color: '#8a1414'
+		},
+		y: {
+			sound: new Howl({
+	  			src: ['sounds/flash-1.mp3']
+			}),
+			color: '#293484'
+		},
+		u: {
+			sound: new Howl({
+	  		src: ['sounds/flash-2.mp3']
+			}),
+			color: '#f855b7'
+		},
+		i: {
+			sound: new Howl({
+	  		src: ['sounds/flash-3.mp3']
+			}),
+			color: '#461d72'
+		},
+		o: {
+			sound: new Howl({
+				src: ['sounds/glimmer.mp3']
+			}),
+			color: '#a6a2bd'
+		},
+		p: {
+			sound: new Howl({
+	  			src: ['sounds/moon.mp3']
+			}),
+			color: '#bbe9ab'
+		},
+		a: {
+			sound: new Howl({
+	  			src: ['sounds/pinwheel.mp3']
+			}),
+			color: '#8b266f'
+		},
+		s: {
+			sound: new Howl({
+	  			src: ['sounds/piston-1.mp3']
+			}),
+			color: '#4e5c69'
+		},
+			d: {
+			sound: new Howl({
+	  			src: ['sounds/piston-2.mp3']
+			}),
+			color: '#f6e9d3'
+		},
+		f: {
+			sound: new Howl({
+	  			src: ['sounds/prism-1.mp3']
+			}),
+			color: '#bd3f00'
+		},
+		g: {
+			sound: new Howl({
+	  			src: ['sounds/prism-2.mp3']
+			}),
+			color: '#233e80'
+		},
+		h: {
+			sound: new Howl({
+	  			src: ['sounds/prism-3.mp3']
+			}),
+			color: '#fd0000'
+		},
+		j: {
+			sound: new Howl({
+	  			src: ['sounds/splits.mp3']
+			}),
+			color: '#67809d'
+		},
+		k: {
+			sound: new Howl({
+	  			src: ['sounds/squiggle.mp3']
+			}),
+			color: '#9d21c9'
+		},
+		l: {	
+			sound: new Howl({
+	  			src: ['sounds/strike.mp3']
+			}),
+			color: '#ea942a'
+		},
+		z: {
+			sound: new Howl({
+	  			src: ['sounds/suspension.mp3']
+			}),
+			color: '#012b4f'
+		},
+		x: {
+			sound: new Howl({
+	  			src: ['sounds/timer.mp3']
+			}),
+			color: '#16605f'
+		},
+		c: {
+			sound: new Howl({
+	  			src: ['sounds/ufo.mp3']
+			}),
+			color: '#bada55'
+		},
+		v: {
+			sound: new Howl({
+	  			src: ['sounds/veil.mp3']
+			}),
+			color: '#e5ba33'
+		},
+		b: {
+			sound: new Howl({
+	  			src: ['sounds/wipe.mp3']
+			}),
+			color: '#89dfc3'
+		},
+		n: {
+			sound: new Howl({
+				src: ['sounds/zig-zag.mp3']
+			}),
+			color: '#353e4e'
+		},
+		m: {
+			sound: new Howl({
+	  			src: ['sounds/moon.mp3']
+			}),
+			color: '#ea4762'
+		},
+		1: {
+			sound: new Howl({
+	  			src: ['sounds/wipe.mp3']
+			}),
+			color: '#a14545'
+		},
+		",": {
+			sound: new Howl({
+	  			src: ['sounds/glimmer.mp3']
+			}),
+			color: '#483f25'
+		}
+	}
+ 
+	var circles = [];
+
+	function onKeyDown(event) { 
+		if(keyData[event.key]){
+			var maxPoint = new Point(view.size.width, view.size.height);
+			var randomPt = Point.random(); 
+			var point = maxPoint * randomPt;
+			//console.log(maxPoint);
+			var newCircle = new Path.Circle(point, 500);
+			newCircle.fillColor = keyData[event.key].color;
+			keyData[event.key].sound.play();
+			//pushes the new circle into array, circles
+			circles.push(newCircle);
+		}
+
+	}
+
+	//every animation frame loops through the circles array, adds 1 to hue and multiples (shrinks) by .9
+	function onFrame(event){
+		for(var i = 0; i< circles.length; i++){
+			//console.log(circles[i]);
+			circles[i].scale(0.9);
+			circles[i].fillColor.hue += 1;
+			if(circles[i].area < 1){
+				circles[i].remove();
+				circles.splice(i, 1); 
+			}
+		}
+	}
+
+
+</script>
+</head>
+<body>
+
+	<canvas id="myCanvas" resize></canvas>
+</body>
+</html>
